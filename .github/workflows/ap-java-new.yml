@@ -1,0 +1,65 @@
+name: Test APITesting Java
+
+on:
+  workflow_call:
+    inputs:
+      pr_head_sha:
+        required: true
+        type: string
+    secrets:
+      test-repo:
+        required: true
+
+jobs:
+  run-bug-tests:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        test_case:
+          - testGetTasks
+          - testAddTask
+          - testUpdateTask
+          - testDeleteTask
+
+    steps:
+      - name: Checkout PR Code
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ inputs.pr_head_sha }}
+
+      - name: Checkout tests
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ secrets.test-repo }}
+          sparse-checkout: java
+          sparse-checkout-cone-mode: false
+          path: tests
+
+      - name: Setup test files
+        run: |
+          mkdir -p src/test/java/com/udara/apitesting
+          mv tests/* src/test/java/com/udara/apitesting
+
+      - name: Setup Java
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Setup Maven
+        uses: stCarolas/setup-maven@v5
+        with:
+          maven-version: '3.9.9'
+
+      - name: Run test case and report status
+        shell: bash {0}
+        run: |
+          set +e
+          mvn -Dtest=TaskControllerTest#${{ matrix.test_case }} test > /dev/null 2>&1
+          result=$?
+          if [ $result -ne 0 ]; then
+            echo "Test failed: ${{ matrix.test_case }}"
+          else
+            echo "Test passed: ${{ matrix.test_case }}"
+          fi
+          exit $result

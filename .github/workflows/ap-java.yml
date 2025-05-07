@@ -1,0 +1,192 @@
+name: Test APITesting Java
+
+on:
+  workflow_call:
+    inputs:
+      pr_head_sha:
+        required: true
+        type: string
+    secrets:
+      test-repo:
+        required: true
+  
+jobs:
+  test-bug-01:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout PR Code
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ inputs.pr_head_sha }}
+
+      - name: Checkout tests
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ secrets.test-repo }}
+          sparse-checkout: java
+          sparse-checkout-cone-mode: false
+          path: tests
+          
+      - name: setup test files
+        run: |
+          mkdir -p src/test/java/com/udara/apitesting
+          mv tests/* src/test/java/com/udara/apitesting
+
+      - name: setup java
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+        
+      - name: setup maven
+        uses: stCarolas/setup-maven@v5
+        with:
+          maven-version: '3.9.9'
+
+      - name: run test on bug 01 and report status
+        shell: bash {0}
+        run: |
+          set +e #Allow script to continue on error
+          mvn -Dtest=TaskControllerTest#testGetTasks test > /dev/null 2>&1
+          result=$?
+          if [ $result -ne 0 ]; then
+            echo "Test failed"
+          else
+            echo "Test passed"
+          fi
+          exit $result #Exit with the result of the test command
+
+  test-bug-02:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout PR Code
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ inputs.pr_head_sha }}
+
+      - name: Checkout tests
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ secrets.test-repo }}
+          sparse-checkout: java
+          sparse-checkout-cone-mode: false
+          path: tests
+          
+      - name: setup test files
+        run: |
+          mkdir -p src/test/java/com/udara/apitesting
+          mv tests/* src/test/java/com/udara/apitesting
+
+      - name: setup java
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+        
+      - name: setup maven
+        uses: stCarolas/setup-maven@v5
+        with:
+          maven-version: '3.9.9'
+
+      - name: run test on bug 02 and report status
+        shell: bash {0}
+        run: |
+          set +e #Allow script to continue on error
+          mvn -Dtest=TaskControllerTest#testAddTask test > /dev/null 2>&1
+          result=$?
+          if [ $result -ne 0 ]; then
+            echo "Test failed"
+          else
+            echo "Test passed"
+          fi
+          exit $result #Exit with the result of the test command
+
+  test-bug-03:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout PR Code
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ inputs.pr_head_sha }}
+
+      - name: Checkout tests
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ secrets.test-repo }}
+          sparse-checkout: java
+          sparse-checkout-cone-mode: false
+          path: tests
+          
+      - name: setup test files
+        run: |
+          mkdir -p src/test/java/com/udara/apitesting
+          mv tests/* src/test/java/com/udara/apitesting
+
+      - name: setup java
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+        
+      - name: setup maven
+        uses: stCarolas/setup-maven@v5
+        with:
+          maven-version: '3.9.9'
+
+      - name: run test on bug 03 and report status
+        shell: bash {0}
+        run: |
+          set +e #Allow script to continue on error
+          mvn -Dtest=TaskControllerTest#testUpdateTask test > /dev/null 2>&1
+          result=$?
+          if [ $result -ne 0 ]; then
+            echo "Test failed"
+          else
+            echo "Test passed"
+          fi
+          exit $result #Exit with the result of the test command
+
+  test-bug-04:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout PR Code
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ inputs.pr_head_sha }}
+
+      - name: Checkout tests
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ secrets.test-repo }}
+          sparse-checkout: java
+          sparse-checkout-cone-mode: false
+          path: tests
+          
+      - name: setup test files
+        run: |
+          mkdir -p src/test/java/com/udara/apitesting
+          mv tests/* src/test/java/com/udara/apitesting
+
+      - name: setup java
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+        
+      - name: setup maven
+        uses: stCarolas/setup-maven@v5
+        with:
+          maven-version: '3.9.9'
+
+      - name: run test on bug 04 and report status
+        shell: bash {0}
+        run: |
+          set +e #Allow script to continue on error
+          mvn -Dtest=TaskControllerTest#testDeleteTask test > /dev/null 2>&1
+          result=$?
+          if [ $result -ne 0 ]; then
+            echo "Test failed"
+          else
+            echo "Test passed"
+          fi
+          exit $result #Exit with the result of the test command
