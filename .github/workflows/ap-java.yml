@@ -22,7 +22,8 @@ jobs:
       - name: Checkout tests
         uses: actions/checkout@v3
         with:
-          repository: ${{ secrets.test-repo }}
+          repository: ${{ secrets.TEST_REPO }}
+          token: ${{ secrets.AUTH_TOKEN }}
           sparse-checkout: java
           sparse-checkout-cone-mode: false
           path: tests
@@ -67,7 +68,8 @@ jobs:
       - name: Checkout tests
         uses: actions/checkout@v3
         with:
-          repository: ${{ secrets.test-repo }}
+          repository: ${{ secrets.TEST_REPO }}
+          token: ${{ secrets.AUTH_TOKEN }}
           sparse-checkout: java
           sparse-checkout-cone-mode: false
           path: tests
@@ -112,7 +114,8 @@ jobs:
       - name: Checkout tests
         uses: actions/checkout@v3
         with:
-          repository: ${{ secrets.test-repo }}
+          repository: ${{ secrets.TEST_REPO }}
+          token: ${{ secrets.AUTH_TOKEN }}
           sparse-checkout: java
           sparse-checkout-cone-mode: false
           path: tests
@@ -157,7 +160,8 @@ jobs:
       - name: Checkout tests
         uses: actions/checkout@v3
         with:
-          repository: ${{ secrets.test-repo }}
+          repository: ${{ secrets.TEST_REPO }}
+          token: ${{ secrets.AUTH_TOKEN }}
           sparse-checkout: java
           sparse-checkout-cone-mode: false
           path: tests
