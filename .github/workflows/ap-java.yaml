@@ -7,7 +7,9 @@ on:
         required: true
         type: string
     secrets:
-      test-repo:
+      TEST_REPO:
+        required: true
+      AUTH_TOKEN:
         required: true
   
 jobs:
